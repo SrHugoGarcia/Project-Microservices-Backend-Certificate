@@ -1,0 +1,3 @@
+# Ignorar los directorios "node_modules" y los archivos "config.env" en cada subdirectorio
+**/node_modules
+**/config.env
