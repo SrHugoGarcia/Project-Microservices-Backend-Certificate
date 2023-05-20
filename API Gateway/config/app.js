@@ -10,7 +10,6 @@ const handleErrors =(err,req,res,next)=>{
         stack: err
     });
 };
-
 app.use('/user', createProxyMiddleware({target: APIUSER,changeOrigin: true, onError: handleErrors}));
 app.use('/course', createProxyMiddleware({target: APICOURSE,changeOrigin: true, onError: handleErrors}));
 app.use('/payment', createProxyMiddleware({target: APIPAYMENT,changeOrigin: true, onError: handleErrors}));

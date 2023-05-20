@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.route("/").get((req,res,next)=>{
-    res.status(200).json({
-        msg: "Hola"
-    });
-});
+const { allPayments,createPayment,onePayment, updatePayment,deletePayment,verifyUserExists } = require('../controllers/paymentController');
+
+router.route('/').get(allPayments).post(verifyUserExists,createPayment);
+router.route('/:id').get(onePayment).patch(updatePayment).delete(deletePayment);
 
 module.exports = router;

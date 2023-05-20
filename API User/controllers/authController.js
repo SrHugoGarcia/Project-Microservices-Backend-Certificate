@@ -87,11 +87,15 @@ const signOff =(req,res)=>{
 const protect =catchAsync(async(req,res,next)=>{
     let token;
     //1)Traer el token y verificar si existe
-        if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+        if(req.headers.cookie){
+            //Autenticacion de server a server la demas son de cliente a server
+            token = req.headers.cookie
+        }else if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
             token = req.headers.authorization.split(" ")[1];
         }else if(req.cookies.jwt){
             token = req.cookies.jwt;
         }
+
     if(!token) return next(new AppError("Tu no has iniciado sesion, porfavor inicia sesion para obtener el acceso",401));
     //2) Verificar si el token es valido
     const decoded = await promisify(jwt.verify)(token,process.env.JWT_SECRET);
@@ -100,6 +104,7 @@ const protect =catchAsync(async(req,res,next)=>{
     if(!user) return next(new AppError("el usuario que pertenece a este token ya no existe",404));
     //ACCESO A LA RUTA
     req.user = user;
+    console.log("PASO")
     next();
 })
 
