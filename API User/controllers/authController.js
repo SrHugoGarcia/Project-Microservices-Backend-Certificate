@@ -104,7 +104,6 @@ const protect =catchAsync(async(req,res,next)=>{
     if(!user) return next(new AppError("el usuario que pertenece a este token ya no existe",404));
     //ACCESO A LA RUTA
     req.user = user;
-    console.log("PASO")
     next();
 })
 

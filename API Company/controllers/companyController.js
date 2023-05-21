@@ -1,23 +1,21 @@
-const Payment = require('../models/Payment');
+const Company = require('../models/Company');
 const axios = require('axios');
-const {deleteOne, updateOne, getOne, getAll, createOne} = require('../controllers/handleFactory');
-const catchAsync = require('../utils/CatchAsync');
-const AppError = require('../utils/AppError');
+const AppError = require('../utils/AppError')
+const catchAsync = require('../utils/catchAsync');
+const {deleteOne, updateOne, getOne, getAll, createOne} = require('./handleFactory')
 const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY } = process.env;
 
 const serverAxios = axios.create({
     baseURL: APIGATEWAY,
   });
 
-const createPayment=createOne(Payment);
+const createCompany=createOne(Company);
 
-const allPayments = getAll(Payment);
+const allCompanys = getAll(Company);
 
-const onePayment = getOne(Payment);
+const oneCompany = getOne(Company);
 
-const updatePayment = updateOne(Payment);
-
-const deletePayment = deleteOne(Payment);
+const updateCompany = updateOne(Company);
 
 const verifyUserExists = catchAsync(async(req,res,next)=>{
     if(!API_USER_EMAIL_ADMIN && API_USER_PASSWORD_ADMIN) return next(new AppError("Falta la configuracion de las cuentas del administrador",404));
@@ -30,6 +28,7 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
         },
         withCredentials: true,
       });
+      if(!req.body.user)return next(new AppError("No tienes los permisos no te has logeado",404))
       const response = await serverAxios({
         method: "GET",
         url: `/user/${req.body.user}`,
@@ -38,11 +37,9 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
             'Cookie': data.data.token
           }
       });
-      const role = response.data.data.data.role;
-      if(!(role === "admin")){
-        return next(new AppError("No tienes los permisos necesarios",401));
-      }
     next();
-})
+});
 
-module.exports = {createPayment, onePayment,allPayments,deletePayment,updatePayment, verifyUserExists };
+const deleteCompany = deleteOne(Company);
+
+module.exports = { createCompany, oneCompany,allCompanys,deleteCompany,updateCompany,verifyUserExists };

@@ -1,16 +1,30 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Payment = sequelize.define("Payments", {
+const Course = sequelize.define("Courses", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  active: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: { len: [1, 200] },
+  },
+  institution: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [1, 200],
+    },
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [1, 200],
+    },
   },
   hours: {
     type: DataTypes.STRING,
@@ -19,23 +33,8 @@ const Payment = sequelize.define("Payments", {
       len: [1, 200],
     },
   },
-  plan: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      len: [1, 200],
-    },
-  },
   user: {
     type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      len: [1, 200],
-    },
-  },
-
-  pay: {
-    type: DataTypes.DOUBLE,
     allowNull: false,
     validate: {
       len: [0, 200],
@@ -61,4 +60,4 @@ const Payment = sequelize.define("Payments", {
   },
 });
 
-module.exports = Payment;
+module.exports = Course;

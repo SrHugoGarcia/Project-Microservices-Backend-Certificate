@@ -19,9 +19,9 @@ app.use('/api/v1/user',userRouter);
 
 app.all('*',(req,res,next)=>{
     next(new AppError(`No se encuentra ${req.originalUrl} en este servidor`,404))
-})
+});
 
 //MANEJO DE ERRORES A NIVEL GLOBAL
-app.use(erroresGlobales)
+app.use(erroresGlobales);
 
 module.exports = app;

@@ -7,8 +7,6 @@ process.on('uncaughtException', err =>{
 
 })
 
-
-
 //Para agregar las variables de entorno a Node
 const dotenv = require('dotenv');
 dotenv.config({path: "./config.env"})

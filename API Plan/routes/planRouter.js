@@ -2,10 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
-router.route("/").get((req,res,next)=>{
-    res.status(200).json({
-        msg: "HOLA"
-    })
-});
+
+const { allPlans,createPlan,onePlan, updatePlan,deletePlan,verifyUserExists } = require('../controllers/planController');
+
+router.route('/').get(allPlans).post(verifyUserExists,createPlan);
+router.route('/:id').get(onePlan).patch(updatePlan).delete(deletePlan);
 
 module.exports = router;

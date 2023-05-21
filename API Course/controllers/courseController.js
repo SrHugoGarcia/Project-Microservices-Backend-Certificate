@@ -1,6 +1,6 @@
-const Payment = require('../models/Payment');
+const Course = require('../models/Course');
 const axios = require('axios');
-const {deleteOne, updateOne, getOne, getAll, createOne} = require('../controllers/handleFactory');
+const {deleteOne, updateOne, getOne, getAll, createOne} = require('./handleFactory');
 const catchAsync = require('../utils/CatchAsync');
 const AppError = require('../utils/AppError');
 const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY } = process.env;
@@ -9,15 +9,15 @@ const serverAxios = axios.create({
     baseURL: APIGATEWAY,
   });
 
-const createPayment=createOne(Payment);
+const createCourse=createOne(Course);
 
-const allPayments = getAll(Payment);
+const allCourses = getAll(Course);
 
-const onePayment = getOne(Payment);
+const oneCourse = getOne(Course);
 
-const updatePayment = updateOne(Payment);
+const updateCourse = updateOne(Course);
 
-const deletePayment = deleteOne(Payment);
+const deleteCourse = deleteOne(Course);
 
 const verifyUserExists = catchAsync(async(req,res,next)=>{
     if(!API_USER_EMAIL_ADMIN && API_USER_PASSWORD_ADMIN) return next(new AppError("Falta la configuracion de las cuentas del administrador",404));
@@ -45,4 +45,4 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
     next();
 })
 
-module.exports = {createPayment, onePayment,allPayments,deletePayment,updatePayment, verifyUserExists };
+module.exports = {createCourse, oneCourse,allCourses,deleteCourse,updateCourse, verifyUserExists };
