@@ -1,3 +1,10 @@
+process.on('uncaughtException', err =>{
+    console.log(err.name, err.message)
+    console.log("UNHANDLE REJECTION SERVIDOR CERRADO....")
+    process.exit(1)
+
+})
+
 const dotenv = require('dotenv');
 dotenv.config({path:"./config.env"});
 
