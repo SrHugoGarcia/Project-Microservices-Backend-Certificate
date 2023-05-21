@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/CatchAsync');
 const AppError = require('../utils/AppError');
+const { Op, literal } = require('sequelize');
 
 const deleteOne = (Model) => catchAsync(async (req, res, next) => {
   const doc = await Model.destroy({ where: { id: req.params.id } });
@@ -71,11 +72,11 @@ const getAll = (Model) => catchAsync(async (req, res) => {
   const limitModel = parseInt(req.query.limit) || 10; // Límite de registros por página, por defecto 10
   const offset = (pageModel - 1) * limitModel; // Cálculo del desplazamiento (offset)
   const { page, limit, ...fields } = req.query;
-  console.log(fields)
+ 
   const { count, rows } = await Model.findAndCountAll({
     offset: offset,
     limit: limitModel,
-    where: fields, 
+    where:fields
   });
 
   const totalPages = Math.ceil(count / limitModel); // Cálculo del total de páginas
@@ -90,6 +91,9 @@ const getAll = (Model) => catchAsync(async (req, res) => {
     totalRecords: count,
   });
 });
+
+
+
 
 
 

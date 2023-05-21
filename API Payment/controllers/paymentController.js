@@ -43,6 +43,20 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
         return next(new AppError("No tienes los permisos necesarios",401));
       }
     next();
-})
+});
+const assignPlan = catchAsync(async(req,res,next)=>{
+  const data = await serverAxios({
+      method: "GET",
+      url: `/plan?id=${req.body.plan}`,
+      withCredentials: true,
+    });
+    if(data.data.data[0]){
+        req.body.plan = data.data.data[0].id
+    }else{
+      return next(new AppError("Hay un error con tu cuenta contacta a soporte",401))
+    }
+    //req.body.payment = data.data.data[0].id
+   next();
+});
 
-module.exports = {createPayment, onePayment,allPayments,deletePayment,updatePayment, verifyUserExists };
+module.exports = {createPayment, onePayment,allPayments,deletePayment,updatePayment, verifyUserExists,assignPlan };

@@ -4,7 +4,8 @@
   "description": "Nodejs express.js",
   "main": "server.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server.js"
+    "dev": "cross-env NODE_ENV=development nodemon server.js",
+    "production": "cross-env NODE_ENV=production nodemon server.js"
   },
   "author": "Victor Hugo Garcia Rodriguez",
   "license": "ISC",
