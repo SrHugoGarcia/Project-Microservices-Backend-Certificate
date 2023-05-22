@@ -1,0 +1,131 @@
+version: '3'
+services: 
+  gateway:
+    restart: always
+    build:
+      context: ./API Gateway
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - userDB
+      - courseDB
+      - paymentDB
+      - certificateDB
+      - companyDB
+      - planDB
+
+  user:
+    restart: always
+    build:
+      context: ./API User
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    depends_on:
+      - userDB
+
+  userDB:
+    image: mongo
+    ports:
+      - '27020:27017'
+    volumes:
+        - ./Data/User:/data/db
+
+  course:
+    restart: always
+    build:
+      context: ./API Course
+      dockerfile: Dockerfile
+    ports:
+      - '3002:3002'
+    depends_on:
+      - courseDB
+
+  courseDB:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=contraseña
+      - MYSQL_DATABASE=Courses
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./Scripts DBS/initCourse.sql:/docker-entrypoint-initdb.d/initCourse.sql
+      - ./Data/Course:/var/lib/mysql
+
+  payment:
+    restart: always
+    build:
+      context: ./API Payment
+      dockerfile: Dockerfile
+    ports:
+      - '3003:3003'
+    depends_on:
+      - paymentDB
+
+  paymentDB:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=contraseña
+      - MYSQL_DATABASE=Payments
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./Scripts DBS/initPayment.sql:/docker-entrypoint-initdb.d/initPayment.sql
+      - ./Data/Payment:/var/lib/mysql
+
+  certificate:
+    restart: always
+    build:
+      context: ./API Certificate
+      dockerfile: Dockerfile
+    ports:
+      - '3004:3004'
+    depends_on:
+      - certificateDB
+
+  certificateDB:
+    image: mongo
+    ports:
+      - '27022:27017'
+    volumes:
+        - ./Data/Certificate:/data/db
+    
+  company:
+    restart: always
+    build:
+      context: ./API Company
+      dockerfile: Dockerfile
+    ports:
+      - '3005:3005'
+    depends_on:
+      - companyDB
+
+  companyDB:
+    image: mongo
+    ports:
+      - '27021:27017'
+    volumes:
+        - ./Data/Company:/data/db
+
+  plan:
+    restart: always
+    build:
+      context: ./API Plan
+      dockerfile: Dockerfile
+    ports:
+      - '3006:3006'
+    depends_on:
+      - planDB
+
+  planDB:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=contraseña
+      - MYSQL_DATABASE=Plans
+    ports:
+      - '3308:3306'
+    volumes:
+      - ./Scripts DBS/initPlan.sql:/docker-entrypoint-initdb.d/initPlan.sql
+      - ./Data/Plan:/var/lib/mysql
+   

@@ -1,7 +1,7 @@
 const Course = require('../models/Course');
 const axios = require('axios');
 const {deleteOne, updateOne, getOne, getAll, createOne} = require('./handleFactory');
-const catchAsync = require('../utils/CatchAsync');
+const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY } = process.env;
 

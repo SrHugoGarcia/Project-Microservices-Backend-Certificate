@@ -17,6 +17,7 @@
     "mariadb": "^3.1.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "wait-for-it": "^1.0.0"
   }
 }

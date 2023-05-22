@@ -1,4 +1,4 @@
-const catchAsync = require('../utils/CatchAsync');
+const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const { Op, literal } = require('sequelize');
 
