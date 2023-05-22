@@ -3,7 +3,7 @@ services:
   gateway:
     restart: always
     build:
-      context: ./API Gateway
+      context: ./API_Gateway
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
@@ -18,7 +18,7 @@ services:
   user:
     restart: always
     build:
-      context: ./API User
+      context: ./API_User
       dockerfile: Dockerfile
     ports:
       - '3001:3001'
@@ -35,7 +35,7 @@ services:
   course:
     restart: always
     build:
-      context: ./API Course
+      context: ./API_Course
       dockerfile: Dockerfile
     ports:
       - '3002:3002'
@@ -50,13 +50,13 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - ./Scripts DBS/initCourse.sql:/docker-entrypoint-initdb.d/initCourse.sql
+      - ./Scripts_DBS/initCourse.sql:/docker-entrypoint-initdb.d/initCourse.sql
       - ./Data/Course:/var/lib/mysql
 
   payment:
     restart: always
     build:
-      context: ./API Payment
+      context: ./API_Payment
       dockerfile: Dockerfile
     ports:
       - '3003:3003'
@@ -71,13 +71,13 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ./Scripts DBS/initPayment.sql:/docker-entrypoint-initdb.d/initPayment.sql
+      - ./Scripts_DBS/initPayment.sql:/docker-entrypoint-initdb.d/initPayment.sql
       - ./Data/Payment:/var/lib/mysql
 
   certificate:
     restart: always
     build:
-      context: ./API Certificate
+      context: ./API_Certificate
       dockerfile: Dockerfile
     ports:
       - '3004:3004'
@@ -94,7 +94,7 @@ services:
   company:
     restart: always
     build:
-      context: ./API Company
+      context: ./API_Company
       dockerfile: Dockerfile
     ports:
       - '3005:3005'
@@ -111,7 +111,7 @@ services:
   plan:
     restart: always
     build:
-      context: ./API Plan
+      context: ./API_Plan
       dockerfile: Dockerfile
     ports:
       - '3006:3006'
@@ -126,6 +126,6 @@ services:
     ports:
       - '3308:3306'
     volumes:
-      - ./Scripts DBS/initPlan.sql:/docker-entrypoint-initdb.d/initPlan.sql
+      - ./Scripts_DBS/initPlan.sql:/docker-entrypoint-initdb.d/initPlan.sql
       - ./Data/Plan:/var/lib/mysql
    
