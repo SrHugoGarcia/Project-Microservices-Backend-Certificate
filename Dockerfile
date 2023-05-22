@@ -4,7 +4,7 @@ FROM arm64v8/ubuntu:20.04
 RUN mkdir -p /usr/local/bin
 # Instalar dependencias necesarias
 RUN apt-get update && \
-     apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+     apt-get install && \ apt-transport-https ca-certificates curl gnupg lsb-release
 
 
 # Instalar Docker
