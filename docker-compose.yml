@@ -14,6 +14,9 @@ services:
       - certificateDB
       - companyDB
       - planDB
+    networks:
+      - my-network
+    #description: Gateway API service para direccionar las solicitudes a la API correspondiente
 
   user:
     restart: always
@@ -24,6 +27,9 @@ services:
       - '3001:3001'
     depends_on:
       - userDB
+    networks:
+      - my-network
+    #description: User API service 
 
   userDB:
     image: mongo
@@ -31,6 +37,9 @@ services:
       - '27020:27017'
     volumes:
         - ./Data/User:/data/db
+    networks:
+      - my-network
+    #description: Base de datos para User API service 
 
   course:
     restart: always
@@ -41,6 +50,9 @@ services:
       - '3002:3002'
     depends_on:
       - courseDB
+    networks:
+      - my-network
+    #description: Course API service 
 
   courseDB:
     image: mariadb
@@ -52,6 +64,9 @@ services:
     volumes:
       - ./Scripts_DBS/initCourse.sql:/docker-entrypoint-initdb.d/initCourse.sql
       - ./Data/Course:/var/lib/mysql
+    networks:
+      - my-network
+    #description: Base de datos para Course API service 
 
   payment:
     restart: always
@@ -62,6 +77,10 @@ services:
       - '3003:3003'
     depends_on:
       - paymentDB
+    networks:
+      - my-network
+    #description: Payment API service 
+
 
   paymentDB:
     image: mariadb
@@ -73,6 +92,10 @@ services:
     volumes:
       - ./Scripts_DBS/initPayment.sql:/docker-entrypoint-initdb.d/initPayment.sql
       - ./Data/Payment:/var/lib/mysql
+    networks:
+      - my-network
+    #description: Base de datos para Payment API service 
+
 
   certificate:
     restart: always
@@ -83,6 +106,10 @@ services:
       - '3004:3004'
     depends_on:
       - certificateDB
+    networks:
+      - my-network
+    #description: Certificate API service 
+
 
   certificateDB:
     image: mongo
@@ -90,6 +117,10 @@ services:
       - '27022:27017'
     volumes:
         - ./Data/Certificate:/data/db
+    networks:
+      - my-network
+    #description: Base de datos para Certificate API service 
+
     
   company:
     restart: always
@@ -100,6 +131,10 @@ services:
       - '3005:3005'
     depends_on:
       - companyDB
+    networks:
+      - my-network
+    #description: Company API service 
+
 
   companyDB:
     image: mongo
@@ -107,6 +142,10 @@ services:
       - '27021:27017'
     volumes:
         - ./Data/Company:/data/db
+    networks:
+      - my-network
+    #description: Base de datos para Company API service 
+
 
   plan:
     restart: always
@@ -117,6 +156,10 @@ services:
       - '3006:3006'
     depends_on:
       - planDB
+    networks:
+      - my-network
+    #description: Plan API service 
+
 
   planDB:
     image: mariadb
@@ -128,4 +171,16 @@ services:
     volumes:
       - ./Scripts_DBS/initPlan.sql:/docker-entrypoint-initdb.d/initPlan.sql
       - ./Data/Plan:/var/lib/mysql
+    networks:
+      - my-network
+    #description: Base de datos para Plan API service 
+
    
+networks:
+  my-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+          gateway: 172.25.0.1
