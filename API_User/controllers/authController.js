@@ -13,6 +13,7 @@ const signToken = id =>{
 
 const createSendToken =(user,statusCode,req,res)=>{
     const token = signToken(user._id);
+    console.log(user)
     //Las cookies sirven para que el navegador no pueda modicar ni acceder a la cookie que mandaremos
     //Un cookie es un pequeño fragmento de texto
     const cookieOptions ={
@@ -89,20 +90,28 @@ const protect =catchAsync(async(req,res,next)=>{
     //1)Traer el token y verificar si existe
         if(req.headers.cookie){
             //Autenticacion de server a server la demas son de cliente a server
+            console.log("headers")
             token = req.headers.cookie
         }else if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
             token = req.headers.authorization.split(" ")[1];
         }else if(req.cookies.jwt){
             token = req.cookies.jwt;
         }
+        if(token.includes("=")){
+            token = token.split("=")[1];
+        }
 
     if(!token) return next(new AppError("Tu no has iniciado sesion, porfavor inicia sesion para obtener el acceso",401));
+    console.log(token)
+    console.log(process.env.JWT_SECRET)
     //2) Verificar si el token es valido
     const decoded = await promisify(jwt.verify)(token,process.env.JWT_SECRET);
+    console.log("EROROR")
     //3) Verificar si el usuario existe
     const user = await User.findById(decoded.id)
     if(!user) return next(new AppError("el usuario que pertenece a este token ya no existe",404));
     //ACCESO A LA RUTA
+    console.log("Paso")
     req.user = user;
     next();
 })

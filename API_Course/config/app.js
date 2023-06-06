@@ -1,8 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const erroresGlobales = require('../controllers/errorController');
-
+const cors = require('cors');
 const courseRouter = require("../routes/courseRouter");
+const AppError = require('../utils/AppError')
 
 const app = express();
 
@@ -14,6 +15,20 @@ if(process.env.NODE_ENV === 'development'){
 app.use(express.json({limit: '10kb'}));
 
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
+const whileList = [process.env.FRONTEND_URL,process.env.FRONTEND_URL2];
+const corsOptions = {
+    origin: function (origin, callback) {
+      if(whileList.includes(origin)){
+        callback(null,true)
+      }else{
+        callback(new AppError("No tienes el acceso a la api",401))
+      }
+    },    
+    credentials: true
+  }
+
+app.use(cors(corsOptions))
 
 app.use("/api/v1/course",courseRouter);
 

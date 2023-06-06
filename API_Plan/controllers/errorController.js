@@ -58,7 +58,7 @@ const erroresGlobales = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
   //console.log("Inicia")
-  //console.log(err)
+  console.log(err)
   //console.log("Termina")
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);

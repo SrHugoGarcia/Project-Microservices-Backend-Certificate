@@ -34,7 +34,7 @@ const handleDuplicateFieldsDB = (err) => {
 };
 
 const handleValidationErrorDB = (err) => {
-  const errores = err.errors.map((el) => el.path + " esta " + el.value);
+  const errores = err.errors.map((el) => el.path + (el.value?(" esta " + el.value):""));
   const message = `Datos de entrada inválidos: ${errores}`;
   return new AppError(message, 400);
 };
@@ -58,7 +58,7 @@ const erroresGlobales = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
   //console.log("Inicia")
-  //console.log(err)
+  console.log(err)
   //console.log("Termina")
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);

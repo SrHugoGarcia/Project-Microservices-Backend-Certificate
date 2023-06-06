@@ -73,7 +73,7 @@ const erroresGlobales = (err,req,res,next)=>{
        //Solucionando los 2 errores qu etenemos en mongoose, el id invalido y  un campo duplicado
                //Le pasamos el error que creo mongoose como parametro
                
-               //console.log(error)
+               console.log(error)
        if(error.name === "CastError") error = handleCastErrorDB(error);
         //Campo duplicado
        if(error.code ===  11000) error = handleDuplicateFieldsDB(error);

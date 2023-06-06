@@ -3,7 +3,7 @@ const axios = require('axios');
 const AppError = require('../utils/AppError')
 const catchAsync = require('../utils/catchAsync');
 const {deleteOne, updateOne, getOne, getAll, createOne} = require('./handleFactory')
-const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY } = process.env;
+const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY,FRONTEND_URL2 } = process.env;
 
 const serverAxios = axios.create({
     baseURL: APIGATEWAY,
@@ -26,6 +26,9 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
             email: API_USER_EMAIL_ADMIN,
             password: API_USER_PASSWORD_ADMIN,
         },
+        headers: {
+          Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
+        },
         withCredentials: true,
       });
       if(!req.body.user)return next(new AppError("No tienes los permisos no te has logeado",404))
@@ -34,7 +37,8 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
         url: `/user/${req.body.user}`,
         withCredentials: true,
         headers: {
-            'Cookie': data.data.token
+            'Cookie': data.data.token,
+            Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
           }
       });
     next();
@@ -46,6 +50,9 @@ const verifyCurseExists = catchAsync(async(req,res,next)=>{
       method: "GET",
       url: `/course?id=${req.body.course}`,
       withCredentials: true,
+      headers: {
+        Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
+      },
     });
     if(response.data.data[0]){
       req.body.course = response.data.data[0].id
@@ -61,6 +68,9 @@ const verifyCompanyExists = catchAsync(async(req,res,next)=>{
     method: "GET",
     url: `/company?_id=${req.body.company}`,
     withCredentials: true,
+    headers: {
+      Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
+    },
   });
   if(response.data.data.data[0]){
     req.body.company = response.data.data.data[0]._id
@@ -76,11 +86,14 @@ const assignPayment = catchAsync(async(req,res,next)=>{
       method: "GET",
       url: `/payment?user=${req.body.user}&active=true`,
       withCredentials: true,
+      headers: {
+        Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
+      },
     });
     if(data.data.data[0]){
         req.body.payment = data.data.data[0].id
     }else{
-      return next(new AppError("Hay un error con tu cuenta contacta a soporte",401))
+      return next(new AppError("No cuentas con un plan.",401))
     }
     //req.body.payment = data.data.data[0].id
    next();

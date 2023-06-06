@@ -1,3 +1,6 @@
+const redis = require('redis');
+const cron = require('node-cron');
+
 //Manejo de Excepciones no detectadas (Todos lo errores o también llamados bugs)
 //SOLO CODIGO SYNCRONO
 process.on('uncaughtException', err =>{
@@ -7,6 +10,7 @@ process.on('uncaughtException', err =>{
 
 })
 
+
 //Para agregar las variables de entorno a Node
 const dotenv = require('dotenv');
 dotenv.config({path: "./config.env"})
@@ -14,9 +18,11 @@ dotenv.config({path: "./config.env"})
 const app = require('./config/app');
 const conexionDB = require('./config/db');
 
+
 //Conexion con nuestra base de datos
 conexionDB();
- 
+
+
 //Creamos nuestra variable del puerto
 const port = process.env.PORT || 3000;
 
@@ -36,3 +42,4 @@ process.on("unhandledRejection",err=>{
         process.exit(1)
     })
 })
+

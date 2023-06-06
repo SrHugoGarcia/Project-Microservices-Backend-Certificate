@@ -3,7 +3,7 @@ const axios = require('axios');
 const {deleteOne, updateOne, getOne, getAll, createOne} = require('./handleFactory');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
-const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY } = process.env;
+const { API_USER_EMAIL_ADMIN, API_USER_PASSWORD_ADMIN, APIGATEWAY,FRONTEND_URL2 } = process.env;
 
 const serverAxios = axios.create({
     baseURL: APIGATEWAY,
@@ -29,13 +29,17 @@ const verifyUserExists = catchAsync(async(req,res,next)=>{
             password: API_USER_PASSWORD_ADMIN,
         },
         withCredentials: true,
+        headers: {
+          Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
+        },
       });
       const response = await serverAxios({
         method: "GET",
         url: `/user/${req.body.user}`,
         withCredentials: true,
         headers: {
-            'Cookie': data.data.token
+            'Cookie': data.data.token,
+            Origin: FRONTEND_URL2 // Reemplaza con el dominio del cliente
           }
       });
       const role = response.data.data.data.role;

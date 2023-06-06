@@ -15,7 +15,7 @@ services:
       - companyDB
       - planDB
     networks:
-      - my-network
+      - red-local
     #description: Gateway API service para direccionar las solicitudes a la API correspondiente
 
   user:
@@ -28,7 +28,7 @@ services:
     depends_on:
       - userDB
     networks:
-      - my-network
+      - red-local
     #description: User API service 
 
   userDB:
@@ -36,9 +36,10 @@ services:
     ports:
       - '27020:27017'
     volumes:
+      # -  user-db-data:/data/db
         - ./Data/User:/data/db
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para User API service 
 
   course:
@@ -51,7 +52,7 @@ services:
     depends_on:
       - courseDB
     networks:
-      - my-network
+      - red-local
     #description: Course API service 
 
   courseDB:
@@ -63,9 +64,10 @@ services:
       - '3307:3306'
     volumes:
       - ./Scripts_DBS/initCourse.sql:/docker-entrypoint-initdb.d/initCourse.sql
+     #- course-db-data:/var/lib/mysql
       - ./Data/Course:/var/lib/mysql
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para Course API service 
 
   payment:
@@ -78,7 +80,7 @@ services:
     depends_on:
       - paymentDB
     networks:
-      - my-network
+      - red-local
     #description: Payment API service 
 
 
@@ -91,9 +93,10 @@ services:
       - '3306:3306'
     volumes:
       - ./Scripts_DBS/initPayment.sql:/docker-entrypoint-initdb.d/initPayment.sql
+     #- payment-db-data:/var/lib/mysql
       - ./Data/Payment:/var/lib/mysql
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para Payment API service 
 
 
@@ -107,7 +110,7 @@ services:
     depends_on:
       - certificateDB
     networks:
-      - my-network
+      - red-local
     #description: Certificate API service 
 
 
@@ -116,9 +119,10 @@ services:
     ports:
       - '27022:27017'
     volumes:
+       #- certificate-db-data:/data/db
         - ./Data/Certificate:/data/db
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para Certificate API service 
 
     
@@ -132,7 +136,7 @@ services:
     depends_on:
       - companyDB
     networks:
-      - my-network
+      - red-local
     #description: Company API service 
 
 
@@ -141,9 +145,10 @@ services:
     ports:
       - '27021:27017'
     volumes:
-        - ./Data/Company:/data/db
+    # - company-db-data:/data/db
+      - ./Data/Company:/data/db
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para Company API service 
 
 
@@ -157,7 +162,7 @@ services:
     depends_on:
       - planDB
     networks:
-      - my-network
+      - red-local
     #description: Plan API service 
 
 
@@ -170,17 +175,28 @@ services:
       - '3308:3306'
     volumes:
       - ./Scripts_DBS/initPlan.sql:/docker-entrypoint-initdb.d/initPlan.sql
+    # - plan-db-data:/var/lib/mysql
       - ./Data/Plan:/var/lib/mysql
     networks:
-      - my-network
+      - red-local
     #description: Base de datos para Plan API service 
+
+
 
    
 networks:
-  my-network:
+  red-local:
     driver: bridge
     ipam:
       driver: default
       config:
         - subnet: 172.25.0.0/16
           gateway: 172.25.0.1
+
+volumes:
+  user-db-data:
+  course-db-data:
+  payment-db-data:
+  plan-db-data:
+  company-db-data:
+  certificate-db-data:
